@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const InventoryItem = require('../models//inventoryItemSchema');
+const InventoryItem = require('../models/inventoryItemSchema');
 
 // ✅ Create new inventory item
 router.post('/', async (req, res) => {

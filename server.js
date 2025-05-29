@@ -2,17 +2,22 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const itemRoutes = require('./routes/itemRoutes');
-
+const customerRoutes = require('./routes/customerRoutes');
+const supplierRoutes = require('./routes/SupplierRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const inventoryItem = require('./models/inventoryItemSchema');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json()); 
 
-app.use("/api", itemRoutes);
+app.use("/api/customers", customerRoutes);
+app.use("/api/suppliers", supplierRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/inventory', inventoryItem); // Assuming you have an InventoryItem route
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -21,7 +26,10 @@ mongoose
   })
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('Error connecting to MongoDB:', err));
-
+  
+app.get('/', (req, res) => {
+  res.send('Server is running ✅');
+});
  
 
 app.use((err, req, res,next) => {
@@ -30,5 +38,5 @@ app.use((err, req, res,next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://Bhargavi_Traders:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
